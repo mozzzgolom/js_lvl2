@@ -61,8 +61,25 @@ class GoodItem {
 class Cart  {
     _items = []
 
-    add() {
+    set cartItems(value) {
+        this._items = value;
+        this.totalOutput.innerHTML = `<h2>Сумма: \$${this.total.toFixed(
+          2
+        )}</h2>`;
+    }
+    
+    get total() {
+        const sum = this._items.reduce(
+          (prevValue, curItem) => prevValue + curItem._price,
+          0
+        );
+        return sum;
+      }
 
+    add(CartItem) {
+        const updatedItems = [...this._items];
+        updatedItems.push(CartItem);
+        this._Items = updatedItems;
     }
 
     render () {
@@ -73,6 +90,16 @@ class Cart  {
 }
 
 class CartItem extends GoodItem { //можно наследоваться от гудайтем и поменять метод рендер
+    
+    constructor ({ name, price, img }, CartInstanse) {
+        this._name = name
+        this._price = price
+        this._img = img
+        this._CartInstanse = CartInstanse
+    }
+
+    super ()
+
     render () {
         const placeToRender = document.querySelector('.cart')
         if (placeToRender) {
