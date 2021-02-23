@@ -62,10 +62,10 @@ class Cart  {
     _items = []
 
     set cartItems(value) {
-        this._items = value;
+        this._items = value
         this.totalOutput.innerHTML = `<h2>Сумма: \$${this.total.toFixed(
           2
-        )}</h2>`;
+        )}</h2>`
     }
     
     get total() {
@@ -73,13 +73,15 @@ class Cart  {
           (prevValue, curItem) => prevValue + curItem._price,
           0
         );
-        return sum;
+        return sum
       }
 
-    add(CartItem) {
-        const updatedItems = [...this._items];
-        updatedItems.push(CartItem);
-        this._Items = updatedItems;
+    add(GoodItem) {
+        new CartItem ()
+
+        const updatedItems = [...this._items]
+        updatedItems.push(GoodItem)
+        this._Items = updatedItems
     }
 
     render () {
@@ -90,30 +92,24 @@ class Cart  {
 }
 
 class CartItem extends GoodItem { //можно наследоваться от гудайтем и поменять метод рендер
-    
-    constructor ({ name, price, img }, CartInstanse) {
-        this._name = name
-        this._price = price
-        this._img = img
-        this._CartInstanse = CartInstanse
+
+    constructor ({ name, price }, CartInstanse) {
+        super ()
+        // this._name = name
+        // this._price = price
+        // this._CartInstanse = CartInstanse
     }
 
-    super ()
+    
 
     render () {
         const placeToRender = document.querySelector('.cart')
         if (placeToRender) {
             const block = document.createElement('div')
-            block.innerHTML = `<img src="${this._img}" /> Товар ${this._name} = ${this._price}`
+            block.innerHTML = `Товар ${this._name} = ${this._price}`
     }
 }
 
 const CartInstanse = new Cart()
 
 new List (CartInstanse)
-
-
-
-
-
-
