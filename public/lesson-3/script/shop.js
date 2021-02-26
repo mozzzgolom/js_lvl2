@@ -20,7 +20,7 @@ class List {
   
     fetchGoods () {
       this.preloading = true
-      const url = 'http://localhost:4000/database/items.json';
+      const url = 'https://mozzzg.herokuapp.com/database/items.json';
       return fetch(url);
     }
   
