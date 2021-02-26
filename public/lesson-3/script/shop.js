@@ -20,7 +20,7 @@ class List {
   
     fetchGoods () {
       this.preloading = true
-      const url = 'http://localhost:4000/lesson-3/database/items.json';
+      const url = 'http://localhost:4000/database/items.json';
       return fetch(url);
     }
   
@@ -45,17 +45,19 @@ class List {
     }
   
     addToCart () {
-      this._CartInstane.add(this)
-      console.log('Added!', this._name)
+      this._CartInstane.add({ name: this._name, price: this._price, quantity: 1 })
+      // console.log('Added!', this._name)
     }
   
     render () {
       const placeToRender = document.querySelector('.goods-list')
       if (placeToRender) {
         const block = document.createElement('div')
+        block.classList.add('card')
         block.innerHTML = `
-          Товар: ${this._name} = ${this._price}
           <img src="${this._img}" />
+          Товар: ${this._name} = ${this._price}
+          
         `
         const btn = new Button('Добавить в корзину', this.addToCart.bind(this))
         btn.render(block)
@@ -65,57 +67,57 @@ class List {
     }
   }
 
-// class Cart  {
-//     _items = []
+class Cart  {
+    _items = []
 
-//     set cartItems(value) {
-//         this._items = value
-//         this.totalOutput.innerHTML = `<h2>Сумма: \$${this.total.toFixed(
-//           2
-//         )}</h2>`
-//     }
+    constructor() {
+      this.render()
+  }
+
+    add(item) {
+      const existedItem = this._items.find(good => good._name === item.name)
+      if (existedItem) {
+          existedItem._quantity += item.quantity
+      } else {
+          this._items.push(new CartItem(item))
+      }
+      this.render()
+  }
+
+  render() {
+    const block = document.querySelector('.table')
+    if (block) {
+        block.innerHTML = "<tr><td>Наименование</td><td>Кол-во</td><td>Цена</td><td>Сумма</td></tr>"
+        console.log(block);
+      }
+    this._items.forEach(Good => {
+        Good.render()
+    })
+}
+}
+
+class CartItem {
+    _name = ''
+    _price = 0
+    _quantity = 1
+    constructor ({ name, price, quantity }) {
+       
+        this._name = name
+        this._price = price
+        this._quantity = quantity
+    }
+
     
-//     get total() {
-//         const sum = this._items.reduce(
-//           (prevValue, curItem) => prevValue + curItem._price,
-//           0
-//         );
-//         return sum
-//       }
 
-//     add(GoodItem) {
-//         new CartItem ()
+    render() {
+      const placeToRender = document.querySelector('.table')
+      const block = document.createElement('tr')
+      block.classList.add('row')
+      block.innerHTML = `<tr><td>${this._name}</td><td>${this._quantity}</td><td>${this._price}</td><td>${this._price * this._quantity}</td></tr>`
+      placeToRender.appendChild(block)
+  }
+}
 
-//         const updatedItems = [...this._items]
-//         updatedItems.push(GoodItem)
-//         this._Items = updatedItems
-//     }
-
-//     render () {
-//         this._items.forEach(Good => {
-//             Good.render()
-//         })
-//     }
-// }
-
-// class CartItem extends GoodItem { //можно наследоваться от гудайтем и поменять метод рендер
-//     constructor ({ name, price }, CartInstanse) {
-//         super ()
-//         // this._name = name
-//         // this._price = price
-//         // this._CartInstanse = CartInstanse
-//     }
-
-    
-
-//     render () {
-//         const placeToRender = document.querySelector('.cart')
-//         if (placeToRender) {
-//             const block = document.createElement('div')
-//             block.innerHTML = `Товар ${this._name} = ${this._price}`
-//     }
-// }
-
-// const CartInstanse = new Cart()
-
-new List ()
+const CartInstanse = new Cart()
+List.instanceCount = 0
+new List (CartInstanse)
