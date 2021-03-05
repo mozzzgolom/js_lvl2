@@ -11,9 +11,9 @@ const server = http.createServer(function(req, res) {
         if (isSvg) {
             res.setHeader('Content-Type', 'image/svg+xml'); // присваиваем нужный тип файлу
         }
-        body = fs.readFileSync(`./public/lesson-3${req.url}`) 
+        body = fs.readFileSync(`./public/lesson-4${req.url}`) 
     } catch (err) {
-        body = fs.readFileSync('./public/lesson-3/index.html')
+        body = fs.readFileSync('./public/lesson-4/index.html')
     }
 
     res.end(body);
